@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getTrack, tracks } from "@/lib/tracks";
+import { getLessonsForTrack } from "@/lib/content";
 
 export function generateStaticParams() {
   return tracks.map((t) => ({ slug: t.slug }));
@@ -47,6 +48,8 @@ export default async function TrackPage({ params }: { params: Promise<{ slug: st
   const idx = tracks.findIndex((t) => t.slug === track!.slug);
   const prev = idx > 0 ? tracks[idx - 1] : null;
   const next = idx < tracks.length - 1 ? tracks[idx + 1] : null;
+  const lessons = getLessonsForTrack(slug);
+  const hasLessons = lessons.length > 0;
 
   return (
     <article className="mx-auto max-w-4xl px-4 py-16 sm:py-20">
@@ -86,28 +89,72 @@ export default async function TrackPage({ params }: { params: Promise<{ slug: st
         <p className="mt-3 text-lg leading-relaxed text-ink-700 dark:text-ink-200">{track!.overview}</p>
       </section>
 
-      {/* Topics */}
-      <section className="mt-12">
-        <h2 className="text-xs font-semibold uppercase tracking-wider text-brand-600 dark:text-brand-300">
-          Topics
-        </h2>
-        <h3 className="mt-2 text-2xl font-semibold text-ink-900 dark:text-ink-50">
-          {track!.topics.length} concepts covered
-        </h3>
-        <div className="mt-6 grid gap-2 sm:grid-cols-2">
-          {track!.topics.map((t, i) => (
-            <div
-              key={i}
-              className="flex items-center gap-3 rounded-lg border border-ink-200 bg-white px-4 py-2.5 text-sm text-ink-700 dark:border-ink-700 dark:bg-ink-800 dark:text-ink-200"
-            >
-              <span className="grid h-6 w-6 flex-none place-items-center rounded-full bg-brand-50 text-[10px] font-bold text-brand-700 dark:bg-brand-500/10 dark:text-brand-300">
-                {i + 1}
-              </span>
-              <span>{t}</span>
-            </div>
-          ))}
-        </div>
-      </section>
+      {/* Lessons (if available) or topics */}
+      {hasLessons ? (
+        <section className="mt-12">
+          <h2 className="text-xs font-semibold uppercase tracking-wider text-brand-600 dark:text-brand-300">
+            Lessons
+          </h2>
+          <h3 className="mt-2 text-2xl font-semibold text-ink-900 dark:text-ink-50">
+            {lessons.length} full-length lessons
+          </h3>
+          <p className="mt-2 text-sm text-ink-600 dark:text-ink-300">
+            Each lesson follows the 20-step template: problem → intuition → analogy → math → from-scratch code → production library → experiment → common mistakes → quiz.
+          </p>
+          <div className="mt-6 space-y-2">
+            {lessons.map((l, i) => (
+              <Link
+                key={l.slug}
+                href={`/tracks/${track!.slug}/${l.slug}`}
+                className="group flex items-center gap-4 rounded-xl border border-ink-200 bg-white p-4 transition hover:border-brand-300 dark:border-ink-700 dark:bg-ink-800 dark:hover:border-brand-500"
+              >
+                <span className="grid h-10 w-10 flex-none place-items-center rounded-lg bg-gradient-to-br from-brand-500 to-accent-500 font-mono text-xs font-bold text-white shadow-card">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <div className="min-w-0 flex-1">
+                  <div className="font-semibold text-ink-900 group-hover:text-brand-600 dark:text-ink-50 dark:group-hover:text-brand-300">
+                    {l.title}
+                  </div>
+                  <div className="mt-0.5 truncate text-sm text-ink-600 dark:text-ink-300">
+                    {l.subtitle}
+                  </div>
+                </div>
+                <div className="hidden text-xs text-ink-500 sm:block dark:text-ink-400">
+                  {l.minutes} min
+                </div>
+                <span className="text-ink-400 group-hover:text-brand-600 dark:text-ink-500 dark:group-hover:text-brand-300">
+                  →
+                </span>
+              </Link>
+            ))}
+          </div>
+        </section>
+      ) : (
+        <section className="mt-12">
+          <h2 className="text-xs font-semibold uppercase tracking-wider text-brand-600 dark:text-brand-300">
+            Topics
+          </h2>
+          <h3 className="mt-2 text-2xl font-semibold text-ink-900 dark:text-ink-50">
+            {track!.topics.length} concepts covered
+          </h3>
+          <p className="mt-2 text-sm text-ink-600 dark:text-ink-300">
+            Full lesson content is being written for this track. Follow along for updates.
+          </p>
+          <div className="mt-6 grid gap-2 sm:grid-cols-2">
+            {track!.topics.map((t, i) => (
+              <div
+                key={i}
+                className="flex items-center gap-3 rounded-lg border border-ink-200 bg-white px-4 py-2.5 text-sm text-ink-700 dark:border-ink-700 dark:bg-ink-800 dark:text-ink-200"
+              >
+                <span className="grid h-6 w-6 flex-none place-items-center rounded-full bg-brand-50 text-[10px] font-bold text-brand-700 dark:bg-brand-500/10 dark:text-brand-300">
+                  {i + 1}
+                </span>
+                <span>{t}</span>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* Projects */}
       <section className="mt-12">

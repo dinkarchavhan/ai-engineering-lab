@@ -1,0 +1,86 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light dark;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-ink-50 text-ink-800 antialiased;
+}
+
+.dark body {
+  @apply bg-ink-900 text-ink-100;
+}
+
+.dark-invert {
+  @apply text-ink-100;
+}
+
+/* Grid background helper for hero */
+.hero-grid::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(to right, rgba(15, 16, 23, 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(15, 16, 23, 0.06) 1px, transparent 1px);
+  background-size: 40px 40px;
+  mask-image: radial-gradient(ellipse at center, #000 40%, transparent 75%);
+  pointer-events: none;
+}
+
+.dark .hero-grid::before {
+  background-image: linear-gradient(to right, rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+}
+
+/* Track pill hover */
+.track-card {
+  @apply relative overflow-hidden rounded-2xl border border-ink-200 bg-white p-6 shadow-card transition;
+}
+
+.dark .track-card {
+  @apply border-ink-700 bg-ink-800;
+}
+
+.track-card:hover {
+  @apply -translate-y-0.5 border-brand-300;
+}
+
+.dark .track-card:hover {
+  @apply border-brand-500;
+}
+
+/* Prose overrides */
+.prose-invert-fix a {
+  @apply text-brand-600;
+}
+
+.dark .prose-invert-fix a {
+  @apply text-brand-300;
+}
+
+/* Chip */
+.chip {
+  @apply inline-flex items-center rounded-full border border-ink-200 bg-ink-50 px-2.5 py-0.5 text-xs font-medium text-ink-700;
+}
+
+.dark .chip {
+  @apply border-ink-700 bg-ink-800 text-ink-200;
+}
+
+/* Section spacing */
+.section {
+  @apply py-16 sm:py-24;
+}
+
+/* Scrollbars (subtle) */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(84, 89, 107, 0.35) transparent;
+}

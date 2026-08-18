@@ -24,12 +24,16 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "22"
           cache: "npm"
 
       - name: Configure Pages
         id: pages
         uses: actions/configure-pages@v5
+        with:
+          # Auto-enable Pages via the API if it isn't turned on yet.
+          # (You may still need to set Source = "GitHub Actions" once in the UI.)
+          enablement: true
 
       - name: Install
         run: npm ci

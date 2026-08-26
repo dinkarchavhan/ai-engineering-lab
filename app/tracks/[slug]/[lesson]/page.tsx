@@ -4,6 +4,8 @@ import { tracks, getTrack } from "@/lib/tracks";
 import { getLesson, getLessonsForTrack } from "@/lib/content";
 import { getTensorFlowBlocks } from "@/lib/tensorflow-examples";
 import Blocks from "@/components/lesson/Blocks";
+import CompleteButton from "@/components/lesson/CompleteButton";
+import SupportBanner from "@/components/SupportBanner";
 
 export function generateStaticParams() {
   const out: { slug: string; lesson: string }[] = [];
@@ -115,8 +117,14 @@ export default async function LessonPage({
         </section>
       )}
 
+      {/* Complete + Support */}
+      <div className="mt-14 flex flex-col gap-4">
+        <CompleteButton trackSlug={slug} lessonSlug={lesson} />
+        <SupportBanner />
+      </div>
+
       {/* Prev / Next */}
-      <nav className="mt-16 grid gap-3 sm:grid-cols-2">
+      <nav className="mt-8 grid gap-3 sm:grid-cols-2">
         {prev ? (
           <Link
             href={`/tracks/${slug}/${prev.slug}`}

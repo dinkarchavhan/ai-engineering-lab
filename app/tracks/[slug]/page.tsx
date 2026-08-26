@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getTopicDescription, getTrack, tracks } from "@/lib/tracks";
 import { getLessonsForTrack } from "@/lib/content";
+import TrackLessonList from "@/components/TrackLessonList";
 
 export function generateStaticParams() {
   return tracks.map((t) => ({ slug: t.slug }));
@@ -101,32 +102,16 @@ export default async function TrackPage({ params }: { params: Promise<{ slug: st
           <p className="mt-2 text-sm text-ink-600 dark:text-ink-300">
             Each lesson follows the 20-step template: problem → intuition → analogy → math → from-scratch code → production library → experiment → common mistakes → quiz.
           </p>
-          <div className="mt-6 space-y-2">
-            {lessons.map((l, i) => (
-              <Link
-                key={l.slug}
-                href={`/tracks/${track!.slug}/${l.slug}`}
-                className="group flex items-center gap-4 rounded-xl border border-ink-200 bg-white p-4 transition hover:border-brand-300 dark:border-ink-700 dark:bg-ink-800 dark:hover:border-brand-500"
-              >
-                <span className="grid h-10 w-10 flex-none place-items-center rounded-lg bg-gradient-to-br from-brand-500 to-accent-500 font-mono text-xs font-bold text-white shadow-card">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <div className="min-w-0 flex-1">
-                  <div className="font-semibold text-ink-900 group-hover:text-brand-600 dark:text-ink-50 dark:group-hover:text-brand-300">
-                    {l.title}
-                  </div>
-                  <div className="mt-0.5 truncate text-sm text-ink-600 dark:text-ink-300">
-                    {l.subtitle}
-                  </div>
-                </div>
-                <div className="hidden text-xs text-ink-500 sm:block dark:text-ink-400">
-                  {l.minutes} min
-                </div>
-                <span className="text-ink-400 group-hover:text-brand-600 dark:text-ink-500 dark:group-hover:text-brand-300">
-                  →
-                </span>
-              </Link>
-            ))}
+          <div className="mt-6">
+            <TrackLessonList
+              trackSlug={track!.slug}
+              lessons={lessons.map((l) => ({
+                slug: l.slug,
+                title: l.title,
+                subtitle: l.subtitle,
+                minutes: l.minutes,
+              }))}
+            />
           </div>
           {track!.topics.some((topic) => getTopicDescription(track!.slug, topic)) && (
             <div className="mt-10">

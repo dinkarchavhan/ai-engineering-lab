@@ -32,6 +32,26 @@ export default function Footer() {
             <li><Link href="/about" className="text-ink-600 hover:text-brand-600 dark:text-ink-300 dark:hover:text-brand-300">About</Link></li>
             <li><Link href="/about#philosophy" className="text-ink-600 hover:text-brand-600 dark:text-ink-300 dark:hover:text-brand-300">Philosophy</Link></li>
             <li><Link href="/about#stack" className="text-ink-600 hover:text-brand-600 dark:text-ink-300 dark:hover:text-brand-300">Tech stack</Link></li>
+            <li>
+              <a
+                href="https://github.com/dinkarchavhan/ai-engineering-lab"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-ink-600 hover:text-brand-600 dark:text-ink-300 dark:hover:text-brand-300"
+              >
+                ⭐ Star on GitHub
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://github.com/sponsors/dinkarchavhan"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-pink-600 hover:text-pink-700 dark:text-pink-400 dark:hover:text-pink-300"
+              >
+                ♥ Sponsor
+              </a>
+            </li>
           </ul>
         </div>
       </div>

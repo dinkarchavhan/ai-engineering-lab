@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getTrack, tracks } from "@/lib/tracks";
+import { getTopicDescription, getTrack, tracks } from "@/lib/tracks";
 import { getLessonsForTrack } from "@/lib/content";
 
 export function generateStaticParams() {
@@ -128,6 +128,29 @@ export default async function TrackPage({ params }: { params: Promise<{ slug: st
               </Link>
             ))}
           </div>
+          {track!.topics.some((topic) => getTopicDescription(track!.slug, topic)) && (
+            <div className="mt-10">
+              <h3 className="text-2xl font-semibold text-ink-900 dark:text-ink-50">Concept guide</h3>
+              <p className="mt-2 text-sm text-ink-600 dark:text-ink-300">
+                A quick definition for every concept in this track.
+              </p>
+              <div className="mt-5 grid gap-2 sm:grid-cols-2">
+                {track!.topics.map((topic, i) => (
+                  <div key={topic} className="rounded-xl border border-ink-200 bg-white p-4 dark:border-ink-700 dark:bg-ink-800">
+                    <div className="flex gap-3">
+                      <span className="grid h-6 w-6 flex-none place-items-center rounded-full bg-brand-50 text-[10px] font-bold text-brand-700 dark:bg-brand-500/10 dark:text-brand-300">{i + 1}</span>
+                      <div>
+                        <div className="font-semibold text-ink-900 dark:text-ink-50">{topic}</div>
+                        <p className="mt-1 text-sm leading-relaxed text-ink-600 dark:text-ink-300">
+                          {getTopicDescription(track!.slug, topic) ?? "A core concept covered in this track."}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </section>
       ) : (
         <section className="mt-12">
@@ -149,7 +172,14 @@ export default async function TrackPage({ params }: { params: Promise<{ slug: st
                 <span className="grid h-6 w-6 flex-none place-items-center rounded-full bg-brand-50 text-[10px] font-bold text-brand-700 dark:bg-brand-500/10 dark:text-brand-300">
                   {i + 1}
                 </span>
-                <span>{t}</span>
+                <div>
+                  <div>{t}</div>
+                  {getTopicDescription(track!.slug, t) && (
+                    <p className="mt-1 text-xs leading-relaxed text-ink-500 dark:text-ink-400">
+                      {getTopicDescription(track!.slug, t)}
+                    </p>
+                  )}
+                </div>
               </div>
             ))}
           </div>

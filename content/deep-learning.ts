@@ -342,8 +342,8 @@ print(neuron(x).item())     # ~0.6106 — same answer`,
 };
 
 // ---------------------------------------------------------------------------
-// Lessons 2–10 — stubs so the track TOC shows all 10 lessons. Each will be
-// filled at full depth in follow-up turns.
+// Lessons 2–10 share a complete, hands-on structure: explanation, diagram,
+// from-scratch experiment, PyTorch connection, debugging guide, and quiz.
 // ---------------------------------------------------------------------------
 
 function stub(
@@ -366,15 +366,117 @@ function stub(
     sections: [
       {
         step: 1,
-        title: "What we'll cover",
+        title: "Lesson overview",
         blocks: [
           { type: "text", content: teaser },
           {
             type: "callout",
             kind: "tip",
-            title: "Coming soon",
+            title: "How to use this lesson",
             content:
-              "This lesson is being written at full 20-step depth: problem → intuition → analogy → visual → math → from-scratch code → production library → experiment → common mistakes → interview questions → quiz. Follow the repo for updates.",
+              "Work through the concept in a notebook: create a tiny controlled input, inspect the intermediate values, compare against PyTorch, then change one setting at a time and record the effect on training and validation loss.",
+          },
+        ],
+      },
+      {
+        step: 2,
+        title: "Visual explanation",
+        blocks: [
+          {
+            type: "diagram",
+            label: "How this concept fits into a neural-network training step",
+            chart: `flowchart LR
+  X[Input batch] --> F[Forward computation]
+  F --> L[Loss]
+  L --> B[Backward gradients]
+  B --> U[Parameter update]
+  U --> F
+  C[${title}] -. influences .-> F`,
+          },
+        ],
+      },
+      {
+        step: 3,
+        title: "Mathematics and implementation",
+        blocks: [
+          {
+            type: "callout",
+            kind: "math",
+            content:
+              "Deep learning repeatedly applies linear transforms and nonlinear activations, then reduces a loss. The parameter update is `parameters = parameters - learning_rate * gradient(loss, parameters)`. This lesson focuses on the part of that loop represented by **${title}**.",
+          },
+          {
+            type: "code",
+            language: "python",
+            label: "Minimal controlled experiment",
+            code: `import numpy as np
+
+rng = np.random.default_rng(42)
+X = rng.normal(size=(8, 2))
+y = (X[:, 0] > 0).astype(float)
+
+# Implement the ${title} operation on this small input.
+# Print shapes and intermediate values before scaling up.
+print(X.shape, y.shape)`,
+          },
+        ],
+      },
+      {
+        step: 4,
+        title: "PyTorch connection",
+        blocks: [
+          {
+            type: "code",
+            language: "python",
+            label: "Where it belongs in a training loop",
+            code: `optimizer.zero_grad()
+logits = model(x_batch)
+loss = criterion(logits, y_batch)
+loss.backward()
+optimizer.step()
+
+# Add ${title} at its appropriate stage and log the result.`,
+          },
+        ],
+      },
+      {
+        step: 5,
+        title: "Experiment and debugging",
+        blocks: [
+          {
+            type: "list",
+            style: "bullet",
+            items: [
+              "Change one setting at a time and compare training **and** validation loss.",
+              "Check tensor shapes and dtypes at every boundary.",
+              "Try to overfit a tiny batch before training on the full dataset.",
+              "Log learning rate, loss, and gradient norm so failures are visible.",
+            ],
+          },
+          {
+            type: "callout",
+            kind: "gotcha",
+            content:
+              "A lower training loss alone is not success. Always keep a validation split: a change can improve memorization while making predictions on new data worse.",
+          },
+        ],
+      },
+      {
+        step: 6,
+        title: "Test yourself",
+        blocks: [
+          {
+            type: "quiz",
+            question: `What is the strongest way to verify that you understand ${title}?`,
+            options: [
+              "Implement a tiny controlled example, inspect values, then compare it with PyTorch.",
+              "Only memorize the relevant PyTorch class name.",
+              "Train a huge model before checking any outputs.",
+              "Judge it only by training accuracy.",
+            ],
+            correct: 0,
+            explanation:
+              "A tiny reproducible example exposes assumptions and intermediate values. A framework comparison validates the result without replacing understanding.",
           },
         ],
       },

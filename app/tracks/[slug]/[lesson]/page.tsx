@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { tracks, getTrack } from "@/lib/tracks";
 import { getLesson, getLessonsForTrack } from "@/lib/content";
+import { getTensorFlowBlocks } from "@/lib/tensorflow-examples";
 import Blocks from "@/components/lesson/Blocks";
 
 export function generateStaticParams() {
@@ -39,6 +40,7 @@ export default async function LessonPage({
   const idx = lessons.findIndex((x) => x.slug === lesson);
   const prev = idx > 0 ? lessons[idx - 1] : null;
   const next = idx < lessons.length - 1 ? lessons[idx + 1] : null;
+  const tensorFlowBlocks = getTensorFlowBlocks(slug);
 
   return (
     <article className="mx-auto max-w-3xl px-4 py-14 sm:py-16">
@@ -102,6 +104,16 @@ export default async function LessonPage({
           <Blocks blocks={s.blocks} />
         </section>
       ))}
+
+      {tensorFlowBlocks && (
+        <section className="mb-14 rounded-2xl border border-orange-200 bg-orange-50/60 p-6 dark:border-orange-500/30 dark:bg-orange-500/5">
+          <h2 className="text-2xl font-bold text-ink-900 dark:text-ink-50">TensorFlow / Keras alternative</h2>
+          <p className="mt-2 text-sm text-ink-600 dark:text-ink-300">
+            A comparable implementation for this track&apos;s concepts. The dedicated PyTorch course remains PyTorch-first.
+          </p>
+          <Blocks blocks={tensorFlowBlocks} />
+        </section>
+      )}
 
       {/* Prev / Next */}
       <nav className="mt-16 grid gap-3 sm:grid-cols-2">

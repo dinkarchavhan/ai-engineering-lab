@@ -744,6 +744,7 @@ export const capstoneLessons: Lesson[] = [
     "Senior: AI Software Development Platform",
     "A code review, documentation, and PR summary tool used by a real team — with billing and SLA.",
     ["Code review", "Developer tools", "Billing", "SLA", "Senior"],
+    "Senior",
     "Full-stack: FastAPI + Anthropic + GitHub API + Stripe + PostgreSQL + Kubernetes",
     "The AI Software Development Platform is built to be used by a real team: it integrates with GitHub to automate code review comments, generate PR summaries for non-technical stakeholders, and produce documentation from code. The engineering scope includes the GitHub webhook integration, multi-tenant billing with Stripe, SLA monitoring, and the evaluation framework that measures review quality against human reviewers. This project demonstrates full product ownership — not just engineering, but shipping.",
   ),

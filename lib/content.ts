@@ -39,6 +39,17 @@ export interface Lesson {
   sections: Section[];
 }
 
+export interface ProjectGuide {
+  slug: string;
+  trackSlug: string;
+  title: string;
+  description: string;
+  techStack: string[];
+  difficulty: "beginner" | "intermediate" | "advanced";
+  estimatedHours: number;
+  sections: Section[];
+}
+
 // Registry: track slug → ordered lesson slugs (for prev/next nav on the track page).
 import { developerSetupLessons } from "@/content/developer-setup";
 import { deepLearningLessons } from "@/content/deep-learning";
@@ -67,6 +78,20 @@ import { aiSecurityLessons } from "@/content/ai-security";
 import { aiProductionLessons } from "@/content/ai-production";
 import { aiSystemDesignLessons } from "@/content/ai-system-design";
 import { capstoneLessons } from "@/content/capstone";
+import { developerSetupProjects } from "@/content/developer-setup-projects";
+import { mathForAiProjects } from "@/content/math-for-ai-projects";
+import { classicalMlProjects } from "@/content/classical-ml-projects";
+import { mlFromScratchProjects } from "@/content/ml-from-scratch-projects";
+import { deepLearningProjects } from "@/content/deep-learning-projects";
+import { pytorchProjects } from "@/content/pytorch-projects";
+import { computerVisionProjects } from "@/content/computer-vision-projects";
+import { nlpProjects } from "@/content/nlp-projects";
+import { transformerProjects } from "@/content/transformers-projects";
+import { generativeAiProjects } from "@/content/generative-ai-projects";
+import { llmFromScratchProjects } from "@/content/llm-from-scratch-projects";
+import { llmEngineeringProjects } from "@/content/llm-engineering-projects";
+import { embeddingsVectorDbProjects } from "@/content/embeddings-vector-db-projects";
+import { ragProjects } from "@/content/rag-projects";
 
 const lessonRegistry: Record<string, Lesson[]> = {
   "developer-setup": developerSetupLessons,
@@ -108,4 +133,29 @@ export function getLesson(trackSlug: string, lessonSlug: string): Lesson | undef
 
 export function allLessons(): Lesson[] {
   return Object.values(lessonRegistry).flat();
+}
+
+const projectRegistry: Record<string, ProjectGuide[]> = {
+  "developer-setup": developerSetupProjects,
+  "math-for-ai": mathForAiProjects,
+  "classical-ml": classicalMlProjects,
+  "ml-from-scratch": mlFromScratchProjects,
+  "deep-learning": deepLearningProjects,
+  pytorch: pytorchProjects,
+  "computer-vision": computerVisionProjects,
+  nlp: nlpProjects,
+  transformers: transformerProjects,
+  "generative-ai": generativeAiProjects,
+  "llm-from-scratch": llmFromScratchProjects,
+  "llm-engineering": llmEngineeringProjects,
+  "embeddings-vector-db": embeddingsVectorDbProjects,
+  rag: ragProjects,
+};
+
+export function getProjectsForTrack(trackSlug: string): ProjectGuide[] {
+  return projectRegistry[trackSlug] ?? [];
+}
+
+export function getProject(trackSlug: string, projectSlug: string): ProjectGuide | undefined {
+  return getProjectsForTrack(trackSlug).find((p) => p.slug === projectSlug);
 }

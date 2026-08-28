@@ -1,8 +1,9 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getTopicDescription, getTrack, tracks } from "@/lib/tracks";
-import { getLessonsForTrack } from "@/lib/content";
+import { getLessonsForTrack, getProjectsForTrack } from "@/lib/content";
 import TrackLessonList from "@/components/TrackLessonList";
+import PortfolioProjectList from "@/components/PortfolioProjectList";
 
 export function generateStaticParams() {
   return tracks.map((t) => ({ slug: t.slug }));
@@ -51,6 +52,7 @@ export default async function TrackPage({ params }: { params: Promise<{ slug: st
   const next = idx < tracks.length - 1 ? tracks[idx + 1] : null;
   const lessons = getLessonsForTrack(slug);
   const hasLessons = lessons.length > 0;
+  const projectGuides = getProjectsForTrack(slug);
 
   return (
     <article className="mx-auto max-w-4xl px-4 py-16 sm:py-20">
@@ -179,19 +181,15 @@ export default async function TrackPage({ params }: { params: Promise<{ slug: st
         <h3 className="mt-2 text-2xl font-semibold text-ink-900 dark:text-ink-50">
           What you&apos;ll ship
         </h3>
-        <div className="mt-6 grid gap-3 md:grid-cols-2">
-          {track!.projects.map((p, i) => (
-            <div
-              key={i}
-              className="flex items-start gap-3 rounded-xl border border-ink-200 bg-gradient-to-br from-white to-ink-50 p-4 dark:border-ink-700 dark:from-ink-800 dark:to-ink-900"
-            >
-              <div className="grid h-8 w-8 flex-none place-items-center rounded-lg bg-gradient-to-br from-brand-500 to-accent-500 text-xs font-bold text-white">
-                {String(i + 1).padStart(2, "0")}
-              </div>
-              <div className="text-sm font-medium text-ink-800 dark:text-ink-100">{p}</div>
-            </div>
-          ))}
-        </div>
+        {projectGuides.length > 0 && (
+          <p className="mt-2 text-sm text-ink-600 dark:text-ink-300">
+            Click any project to expand the full end-to-end build guide.
+          </p>
+        )}
+        <PortfolioProjectList
+          projects={track!.projects}
+          guides={projectGuides}
+        />
       </section>
 
       {/* Outcomes */}

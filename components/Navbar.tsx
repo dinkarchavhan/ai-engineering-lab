@@ -2,9 +2,11 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import SearchPalette from "@/components/SearchPalette";
 
 const links = [
   { href: "/tracks", label: "Tracks" },
+  { href: "/dashboard", label: "Dashboard" },
   { href: "/roadmap", label: "Roadmap" },
   { href: "/skill-tree", label: "Skill Tree" },
   { href: "/projects", label: "Projects" },
@@ -35,6 +37,8 @@ export default function Navbar() {
   };
 
   return (
+    <>
+    <SearchPalette />
     <header className="sticky top-0 z-40 border-b border-ink-200/70 bg-white/80 backdrop-blur dark:border-ink-700/70 dark:bg-ink-900/80">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
         <Link href="/" className="flex items-center gap-2 font-semibold">
@@ -64,6 +68,15 @@ export default function Navbar() {
         </nav>
 
         <div className="flex items-center gap-2">
+          {/* Search button */}
+          <button
+            onClick={() => { const e = new KeyboardEvent("keydown", { key: "k", metaKey: true, bubbles: true }); document.dispatchEvent(e); }}
+            className="hidden items-center gap-2 rounded-lg border border-ink-200 bg-white px-3 py-1.5 text-xs text-ink-500 transition hover:border-ink-300 sm:flex dark:border-ink-700 dark:bg-ink-800 dark:text-ink-400 dark:hover:bg-ink-700"
+          >
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="7" /><path d="M21 21l-4.35-4.35" /></svg>
+            Search
+            <kbd className="rounded border border-ink-200 px-1 py-0.5 font-mono text-[9px] dark:border-ink-600">⌘K</kbd>
+          </button>
           <a
             href="https://github.com/dinkarchavhan/ai-engineering-lab"
             target="_blank"
@@ -120,5 +133,6 @@ export default function Navbar() {
         </div>
       )}
     </header>
+    </>
   );
 }

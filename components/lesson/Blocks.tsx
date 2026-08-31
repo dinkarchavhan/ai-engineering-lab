@@ -42,7 +42,8 @@ const calloutStyles: Record<string, { border: string; bg: string; label: string;
   },
 };
 
-export default function Blocks({ blocks }: { blocks: Block[] }) {
+export default function Blocks({ blocks, quizPrefix }: { blocks: Block[]; quizPrefix?: string }) {
+  let quizIndex = 0;
   return (
     <>
       {blocks.map((b, i) => {
@@ -112,7 +113,8 @@ export default function Blocks({ blocks }: { blocks: Block[] }) {
                 </table>
               </div>
             );
-          case "quiz":
+          case "quiz": {
+            const qId = quizPrefix ? `${quizPrefix}_q${quizIndex++}` : undefined;
             return (
               <Quiz
                 key={i}
@@ -120,8 +122,10 @@ export default function Blocks({ blocks }: { blocks: Block[] }) {
                 options={b.options}
                 correct={b.correct}
                 explanation={b.explanation}
+                quizId={qId}
               />
             );
+          }
           default:
             return null;
         }

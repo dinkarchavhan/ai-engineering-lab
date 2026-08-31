@@ -1,6 +1,7 @@
 import Hero from "@/components/Hero";
 import PhilosophyFlow from "@/components/PhilosophyFlow";
 import TrackCard from "@/components/TrackCard";
+import ResumeWidget from "@/components/ResumeWidget";
 import Link from "next/link";
 import { levels, tracks, tracksByLevel } from "@/lib/tracks";
 
@@ -52,6 +53,9 @@ export default function Home() {
   return (
     <>
       <Hero />
+
+      {/* Resume widget — only renders if user has progress */}
+      <ResumeWidget />
 
       {/* Philosophy */}
       <section className="section mx-auto max-w-6xl px-4">

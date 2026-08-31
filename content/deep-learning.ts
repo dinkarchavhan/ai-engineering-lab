@@ -1,7 +1,7 @@
 import type { Lesson } from "@/lib/content";
 
 // ---------------------------------------------------------------------------
-// Lesson 1 — The Neuron (fully written at 20-step depth as the reference)
+// Lesson 1 — The Neuron
 // ---------------------------------------------------------------------------
 const neuronLesson: Lesson = {
   slug: "the-neuron",

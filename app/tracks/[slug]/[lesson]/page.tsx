@@ -5,6 +5,8 @@ import { getLesson, getLessonsForTrack } from "@/lib/content";
 import { getTensorFlowBlocks } from "@/lib/tensorflow-examples";
 import Blocks from "@/components/lesson/Blocks";
 import CompleteButton from "@/components/lesson/CompleteButton";
+import FloatingComplete from "@/components/lesson/FloatingComplete";
+import ReadingProgress from "@/components/lesson/ReadingProgress";
 import SupportBanner from "@/components/SupportBanner";
 
 export function generateStaticParams() {
@@ -45,6 +47,9 @@ export default async function LessonPage({
   const tensorFlowBlocks = getTensorFlowBlocks(slug);
 
   return (
+    <>
+    <ReadingProgress />
+    <FloatingComplete trackSlug={slug} lessonSlug={lesson} />
     <article className="mx-auto max-w-3xl px-4 py-14 sm:py-16">
       {/* Breadcrumb */}
       <div className="mb-8 flex items-center gap-2 text-sm">
@@ -103,7 +108,7 @@ export default async function LessonPage({
             </span>
             <h2 className="text-2xl font-bold text-ink-900 dark:text-ink-50">{s.title}</h2>
           </div>
-          <Blocks blocks={s.blocks} />
+          <Blocks blocks={s.blocks} quizPrefix={`${slug}_${lesson}_s${i}`} />
         </section>
       ))}
 
@@ -161,5 +166,6 @@ export default async function LessonPage({
         )}
       </nav>
     </article>
+    </>
   );
 }

@@ -1,5 +1,4 @@
-import Link from "next/link";
-import { tracks } from "@/lib/tracks";
+import SkillTreeClient from "@/components/SkillTreeClient";
 
 export const metadata = {
   title: "Skill Tree — AI Engineering Lab",
@@ -56,8 +55,7 @@ export default function SkillTreePage() {
           The AI Engineer skill tree
         </h1>
         <p className="mt-3 text-ink-600 dark:text-ink-300">
-          Four branches, one destination. Every completed track unlocks a skill and adds an artifact to
-          your portfolio.
+          Four branches, one destination. Every completed track unlocks a skill and adds an artifact to your portfolio.
         </p>
       </header>
 
@@ -69,62 +67,7 @@ export default function SkillTreePage() {
         </div>
       </div>
 
-      {/* Branches */}
-      <div className="grid gap-6 lg:grid-cols-2">
-        {branches.map((b) => (
-          <div
-            key={b.name}
-            className={`rounded-2xl border-2 p-6 ${b.lightBg} ${b.darkBg}`}
-          >
-            <div className="flex items-center justify-between">
-              <div>
-                <div className={`text-xs font-semibold uppercase tracking-wider ${b.text}`}>Branch</div>
-                <h2 className="mt-1 text-2xl font-bold text-ink-900 dark:text-ink-50">{b.name}</h2>
-              </div>
-              <div className={`h-10 w-10 rounded-full bg-gradient-to-br ${b.color}`} />
-            </div>
-
-            <div className="mt-6">
-              <div className="text-xs font-medium uppercase tracking-wider text-ink-500 dark:text-ink-400">
-                Tracks
-              </div>
-              <div className="mt-3 flex flex-wrap gap-2">
-                {b.trackSlugs.map((slug) => {
-                  const t = tracks.find((x) => x.slug === slug);
-                  if (!t) return null;
-                  return (
-                    <Link
-                      key={slug}
-                      href={`/tracks/${slug}`}
-                      className="group inline-flex items-center gap-1.5 rounded-lg border border-white bg-white/70 px-3 py-1.5 text-sm font-medium text-ink-800 shadow-sm transition hover:bg-white dark:border-ink-700 dark:bg-ink-800/60 dark:text-ink-100 dark:hover:bg-ink-800"
-                    >
-                      <span>{t.emoji}</span>
-                      <span>{t.title}</span>
-                    </Link>
-                  );
-                })}
-              </div>
-            </div>
-
-            <div className="mt-6">
-              <div className="text-xs font-medium uppercase tracking-wider text-ink-500 dark:text-ink-400">
-                Skills unlocked
-              </div>
-              <ul className="mt-3 grid grid-cols-1 gap-1.5 sm:grid-cols-2">
-                {b.unlocks.map((u) => (
-                  <li
-                    key={u}
-                    className="flex items-center gap-2 text-sm text-ink-700 dark:text-ink-200"
-                  >
-                    <span className="text-brand-500">✓</span>
-                    <span>{u}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        ))}
-      </div>
+      <SkillTreeClient branches={branches} />
     </div>
   );
 }

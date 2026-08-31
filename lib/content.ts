@@ -1,6 +1,6 @@
 // Structured lesson content model. Every lesson is a list of Sections.
-// Each Section has a step number (1-20 from the blueprint template) and one or
-// more Blocks. Blocks are rendered by components/lesson/blocks.tsx.
+// Each Section has a step number and one or more Blocks.
+// Blocks are rendered by components/lesson/blocks.tsx.
 
 export type Block =
   | { type: "text"; content: string }
@@ -92,6 +92,19 @@ import { llmFromScratchProjects } from "@/content/llm-from-scratch-projects";
 import { llmEngineeringProjects } from "@/content/llm-engineering-projects";
 import { embeddingsVectorDbProjects } from "@/content/embeddings-vector-db-projects";
 import { ragProjects } from "@/content/rag-projects";
+import { fineTuningProjects } from "@/content/fine-tuning-projects";
+import { llmEvaluationProjects } from "@/content/llm-evaluation-projects";
+import { aiAgentsProjects } from "@/content/ai-agents-projects";
+import { langchainLanggraphProjects } from "@/content/langchain-langgraph-projects";
+import { modelContextProtocolProjects } from "@/content/model-context-protocol-projects";
+import { multiAgentProjects } from "@/content/multi-agent-projects";
+import { multimodalProjects } from "@/content/multimodal-projects";
+import { aiAndDatabasesProjects } from "@/content/ai-and-databases-projects";
+import { aiInfrastructureProjects } from "@/content/ai-infrastructure-projects";
+import { aiSecurityProjects } from "@/content/ai-security-projects";
+import { aiProductionProjects } from "@/content/ai-production-projects";
+import { aiSystemDesignProjects } from "@/content/ai-system-design-projects";
+import { capstoneProjects } from "@/content/capstone-projects";
 
 const lessonRegistry: Record<string, Lesson[]> = {
   "developer-setup": developerSetupLessons,
@@ -150,6 +163,19 @@ const projectRegistry: Record<string, ProjectGuide[]> = {
   "llm-engineering": llmEngineeringProjects,
   "embeddings-vector-db": embeddingsVectorDbProjects,
   rag: ragProjects,
+  "fine-tuning": fineTuningProjects,
+  "llm-evaluation": llmEvaluationProjects,
+  "ai-agents": aiAgentsProjects,
+  "langchain-langgraph": langchainLanggraphProjects,
+  mcp: modelContextProtocolProjects,
+  "multi-agent": multiAgentProjects,
+  multimodal: multimodalProjects,
+  "ai-and-databases": aiAndDatabasesProjects,
+  "ai-infrastructure": aiInfrastructureProjects,
+  "ai-security": aiSecurityProjects,
+  "ai-production": aiProductionProjects,
+  "ai-system-design": aiSystemDesignProjects,
+  capstone: capstoneProjects,
 };
 
 export function getProjectsForTrack(trackSlug: string): ProjectGuide[] {

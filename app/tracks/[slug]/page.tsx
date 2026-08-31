@@ -4,6 +4,7 @@ import { getTopicDescription, getTrack, tracks } from "@/lib/tracks";
 import { getLessonsForTrack, getProjectsForTrack } from "@/lib/content";
 import TrackLessonList from "@/components/TrackLessonList";
 import PortfolioProjectList from "@/components/PortfolioProjectList";
+import TrackProgress from "@/components/TrackProgress";
 
 export function generateStaticParams() {
   return tracks.map((t) => ({ slug: t.slug }));
@@ -19,28 +20,6 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   };
 }
 
-const lessonSteps = [
-  "What problem are we solving?",
-  "Why does it matter?",
-  "Simple explanation",
-  "Real-world analogy",
-  "Visual explanation",
-  "Mathematics",
-  "Build from scratch",
-  "Run it",
-  "Inspect the output",
-  "Production implementation",
-  "Framework implementation",
-  "Experiment",
-  "Common mistakes",
-  "Debugging",
-  "Interview questions",
-  "Mini challenge",
-  "Real-world use case",
-  "Build a reusable component",
-  "Quiz",
-  "Next concept",
-];
 
 export default async function TrackPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
@@ -101,9 +80,7 @@ export default async function TrackPage({ params }: { params: Promise<{ slug: st
           <h3 className="mt-2 text-2xl font-semibold text-ink-900 dark:text-ink-50">
             {lessons.length} full-length lessons
           </h3>
-          <p className="mt-2 text-sm text-ink-600 dark:text-ink-300">
-            Each lesson follows the 20-step template: problem → intuition → analogy → math → from-scratch code → production library → experiment → common mistakes → quiz.
-          </p>
+          <TrackProgress trackSlug={track!.slug} totalLessons={lessons.length} totalHours={track!.hours} />
           <div className="mt-6">
             <TrackLessonList
               trackSlug={track!.slug}
@@ -206,35 +183,6 @@ export default async function TrackPage({ params }: { params: Promise<{ slug: st
             </li>
           ))}
         </ul>
-      </section>
-
-      {/* Lesson template */}
-      <section className="mt-12">
-        <div className="rounded-2xl border border-ink-200 bg-white p-6 dark:border-ink-700 dark:bg-ink-800">
-          <h2 className="text-xs font-semibold uppercase tracking-wider text-brand-600 dark:text-brand-300">
-            How each lesson is built
-          </h2>
-          <h3 className="mt-2 text-2xl font-semibold text-ink-900 dark:text-ink-50">
-            The 20-step lesson template
-          </h3>
-          <p className="mt-2 text-sm text-ink-600 dark:text-ink-300">
-            Every lesson in every track follows the same structure — so you always know what you&apos;re
-            getting.
-          </p>
-          <ol className="mt-6 grid gap-2 text-sm sm:grid-cols-2">
-            {lessonSteps.map((s, i) => (
-              <li
-                key={i}
-                className="flex items-center gap-3 rounded-lg bg-ink-50 px-3 py-2 text-ink-700 dark:bg-ink-900/60 dark:text-ink-200"
-              >
-                <span className="w-6 flex-none text-right font-mono text-xs text-ink-400">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                {s}
-              </li>
-            ))}
-          </ol>
-        </div>
       </section>
 
       {/* Prev / Next */}

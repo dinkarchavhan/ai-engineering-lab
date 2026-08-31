@@ -2,16 +2,28 @@
 import { useState } from "react";
 import Prose from "./Prose";
 
+const QUIZ_KEY = "ai_lab_quiz_scores";
+
+function recordQuizResult(quizId: string, isCorrect: boolean) {
+  try {
+    const scores: Record<string, boolean> = JSON.parse(localStorage.getItem(QUIZ_KEY) ?? "{}");
+    scores[quizId] = isCorrect;
+    localStorage.setItem(QUIZ_KEY, JSON.stringify(scores));
+  } catch {}
+}
+
 export default function Quiz({
   question,
   options,
   correct,
   explanation,
+  quizId,
 }: {
   question: string;
   options: string[];
   correct: number;
   explanation: string;
+  quizId?: string;
 }) {
   const [picked, setPicked] = useState<number | null>(null);
 
@@ -42,7 +54,11 @@ export default function Quiz({
             cls += " border-ink-200 bg-white opacity-60 dark:border-ink-700 dark:bg-ink-800";
           }
           return (
-            <button key={i} onClick={() => picked === null && setPicked(i)} className={cls}>
+            <button key={i} onClick={() => {
+              if (picked !== null) return;
+              setPicked(i);
+              if (quizId) recordQuizResult(quizId, i === correct);
+            }} className={cls}>
               <span className="grid h-6 w-6 flex-none place-items-center rounded-full border border-current text-xs font-bold">
                 {String.fromCharCode(65 + i)}
               </span>

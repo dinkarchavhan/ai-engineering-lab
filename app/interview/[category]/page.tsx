@@ -8,7 +8,6 @@ import { promptEngQuestions } from '@/content/interview-prompt'
 import { systemDesignProblems } from '@/content/interview-system-design'
 import { practicalQuestions } from '@/content/interview-practical'
 import { behavioralQuestions } from '@/content/interview-behavioral'
-import { evaluationMatrix, computeWeightedScore, getHiringRecommendation } from '@/content/interview-evaluation'
 import {
   StandardInterviewClient,
   SystemDesignClient,
@@ -96,11 +95,7 @@ export default function InterviewCategoryPage({
           <BehavioralClient questions={behavioralQuestions} />
         )}
         {slug === 'evaluation' && (
-          <EvaluationMatrixClient
-            categories={evaluationMatrix}
-            computeWeightedScore={computeWeightedScore}
-            getHiringRecommendation={getHiringRecommendation}
-          />
+          <EvaluationMatrixClient />
         )}
       </div>
 

@@ -387,6 +387,8 @@ export function BehavioralClient({ questions }: { questions: BehavioralQuestion[
 }
 
 /* ─── Evaluation Matrix Client ─── */
+import { evaluationMatrix, computeWeightedScore, getHiringRecommendation } from '@/content/interview-evaluation'
+
 interface ScoreGuide { score: number; label: string; description: string }
 interface EvaluationCategory {
   id: string
@@ -397,15 +399,8 @@ interface EvaluationCategory {
   scoringGuide: ScoreGuide[]
 }
 
-export function EvaluationMatrixClient({
-  categories,
-  computeWeightedScore,
-  getHiringRecommendation,
-}: {
-  categories: EvaluationCategory[]
-  computeWeightedScore: (scores: Record<string, number>) => number
-  getHiringRecommendation: (score: number) => { recommendation: string; label: string; color: string }
-}) {
+export function EvaluationMatrixClient() {
+  const categories = evaluationMatrix
   const [scores, setScores] = useState<Record<string, number>>({})
   const [expanded, setExpanded] = useState<string | null>(null)
 

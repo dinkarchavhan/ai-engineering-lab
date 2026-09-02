@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from 'react'
 import type { Difficulty } from '@/lib/interview'
+import { evaluationMatrix, computeWeightedScore, getHiringRecommendation } from '@/content/interview-evaluation'
 
 /* ─── Shared difficulty badge ─── */
 export function DifficultyBadge({ level }: { level: Difficulty }) {
@@ -387,8 +388,6 @@ export function BehavioralClient({ questions }: { questions: BehavioralQuestion[
 }
 
 /* ─── Evaluation Matrix Client ─── */
-import { evaluationMatrix, computeWeightedScore, getHiringRecommendation } from '@/content/interview-evaluation'
-
 interface ScoreGuide { score: number; label: string; description: string }
 interface EvaluationCategory {
   id: string

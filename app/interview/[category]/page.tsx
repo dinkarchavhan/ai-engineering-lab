@@ -20,15 +20,16 @@ export async function generateStaticParams() {
   return CATEGORY_META.map((c) => ({ category: c.slug }))
 }
 
-export default function InterviewCategoryPage({
+export default async function InterviewCategoryPage({
   params,
 }: {
-  params: { category: string }
+  params: Promise<{ category: string }>
 }) {
-  const meta = CATEGORY_META.find((c) => c.slug === params.category)
+  const { category } = await params
+  const meta = CATEGORY_META.find((c) => c.slug === category)
   if (!meta) notFound()
 
-  const slug = params.category as InterviewCategory
+  const slug = category as InterviewCategory
 
   const colorBorderMap: Record<string, string> = {
     blue:   'border-blue-400',
